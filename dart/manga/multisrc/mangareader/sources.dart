@@ -33,7 +33,7 @@ import 'src/arcurafansub/arcurafansub.dart';
 import 'src/mangasiginagi/mangasiginagi.dart';
 import 'src/moondaisyscans/moondaisyscans.dart';
 
-const mangareaderVersion = "0.1.5";
+const mangareaderVersion = "0.1.6";
 const mangareaderSourceCodeUrl =
     "https://raw.githubusercontent.com/$repo/$branchName/dart/manga/multisrc/mangareader/mangareader.dart";
 

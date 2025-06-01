@@ -186,7 +186,7 @@ import 'src/truyenvn/truyenvn.dart';
 
 
 
-const madaraVersion = "0.1.15";
+const madaraVersion = "0.1.16";
 const madaraSourceCodeUrl =
     "https://raw.githubusercontent.com/$repo/$branchName/dart/manga/multisrc/madara/madara.dart";
 
