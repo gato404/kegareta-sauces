@@ -37,6 +37,8 @@ class Source {
 
   int? sourceCodeLanguage;
 
+  String? notes;
+
   Source(
       {this.id = null,
       this.name = "",
@@ -54,9 +56,10 @@ class Source {
       this.isManga,
       this.itemType = ItemType.manga,
       this.isFullData = false,
-      this.appMinVerReq = "0.2.0",
+      this.appMinVerReq = "0.6.3",
       this.additionalParams = "",
-      this.sourceCodeLanguage = 0});
+      this.sourceCodeLanguage = 0,
+      this.notes = ""});
   Source.fromJson(Map<String, dynamic> json) {
     final sourceCodeLang = json['sourceCodeLanguage'] ?? 0;
     apiUrl = json['apiUrl'] ?? "";
@@ -82,6 +85,7 @@ class Source {
     version = json['version'] ?? "";
     additionalParams = json['additionalParams'] ?? "";
     sourceCodeLanguage = sourceCodeLang;
+    notes = json['notes'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -104,12 +108,12 @@ class Source {
       "isFullData": isFullData,
       "appMinVerReq": appMinVerReq,
       "additionalParams": additionalParams,
-      "sourceCodeLanguage": sourceCodeLanguage
+      "sourceCodeLanguage": sourceCodeLanguage,
+      "notes": notes,
     };
   }
 }
 
-const repo = "gato404/kegareta-sauces";
 const branchName = "main";
 
 enum ItemType { manga, anime, novel }

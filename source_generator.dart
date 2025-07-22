@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart/manga/manga_source_list.dart';
 import 'model/source.dart';
 
 void main() {
@@ -10,13 +9,10 @@ void main() {
       jsSources.where((element) => element.itemType!.name == "manga").toList());
   genAnime(
       jsSources.where((element) => element.itemType!.name == "anime").toList());
-  genNovel(
-      jsSources.where((element) => element.itemType!.name == "novel").toList());
 }
 
 void genManga(List<Source> jsMangasourceList) {
   List<Source> mangaSources = [];
-  mangaSources.addAll(dartMangasourceList);
   mangaSources.addAll(jsMangasourceList);
   final List<Map<String, dynamic>> jsonList =
       mangaSources.map((source) => source.toJson()).toList();
@@ -41,19 +37,6 @@ void genAnime(List<Source> jsAnimesourceList) {
   log('JSON file created: ${file.path}');
 }
 
-void genNovel(List<Source> jsNovelSourceList) {
-  List<Source> novelSources = [];
-  novelSources.addAll(jsNovelSourceList);
-  final List<Map<String, dynamic>> jsonList =
-      novelSources.map((source) => source.toJson()).toList();
-  final jsonString = jsonEncode(jsonList);
-
-  final file = File('novel_index.json');
-  file.writeAsStringSync(jsonString);
-
-  log('JSON file created: ${file.path}');
-}
-
 List<Source> _searchJsSources(Directory dir) {
   List<Source> sourceList = [];
   List<FileSystemEntity> entities = dir.listSync();
@@ -64,7 +47,7 @@ List<Source> _searchJsSources(Directory dir) {
         if (entity is Directory) {
           sourceList.addAll(_searchJsSources(entity));
         } else if (entity is File && entity.path.endsWith('.js')) {
-          final regex = RegExp(r'const\s+kegaretaSauces\s*=\s*(\[.*?\]);',
+          final regex = RegExp(r'const\s+mangayomiSources\s*=\s*(\[.*?\]);',
               dotAll: true);
           final defaultSource = Source();
           final match = regex.firstMatch(entity.readAsStringSync());
@@ -76,7 +59,7 @@ List<Source> _searchJsSources(Directory dir) {
                 ..appMinVerReq =
                     sourceJson["appMinVerReq"] ?? defaultSource.appMinVerReq
                 ..sourceCodeUrl =
-                    "https://raw.githubusercontent.com/$repo/$branchName/javascript/${sourceJson["pkgPath"] ?? sourceJson["pkgName"]}";
+                    "https://raw.githubusercontent.com/NAME/REPO-NAME/$branchName/javascript/${sourceJson["pkgPath"] ?? sourceJson["pkgName"]}";
               if (sourceJson["id"] != null) {
                 source = source..id = int.tryParse("${sourceJson["id"]}");
               }
@@ -86,7 +69,7 @@ List<Source> _searchJsSources(Directory dir) {
                   sourceList.add(Source.fromJson(source.toJson())
                     ..lang = lang
                     ..id =
-                        id ?? 'kegareta-js-"$lang"."${source.name}"'.hashCode);
+                        id ?? 'mangayomi-js-"$lang"."${source.name}"'.hashCode);
                 }
               } else {
                 sourceList.add(source);
